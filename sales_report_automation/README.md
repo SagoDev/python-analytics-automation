@@ -1,0 +1,2 @@
+# Sales Report Automation
+This project implements a complete sales report automation pipeline, from data ingestion to the generation of a professional PDF report, using a modular, typed, and reusable architecture.
