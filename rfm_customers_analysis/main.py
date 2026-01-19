@@ -5,7 +5,7 @@ A tool that transforms raw clients data into a ready-to-use executive RFM report
 
 from scheduler import Scheduler
 
-scheduler = Scheduler(input_file="input/clients_sample.csv")
+scheduler = Scheduler(input_file="input/orders_sample.csv")
 
 # Single run
 scheduler.run_pipeline()

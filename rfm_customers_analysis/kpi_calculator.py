@@ -96,7 +96,7 @@ class KPICalculator:
             return pd.Series(dtype=int)
 
         return (
-            self.df.groupby("rfm_segment")["customer_id"]
+            self.df.groupby("rfm_segment", observed=True)["customer_id"]
             .nunique()
             .sort_values(ascending=False)
             .head(1)
@@ -132,7 +132,7 @@ class KPICalculator:
             return pd.DataFrame(columns=["rfm_segment", "customers"])
 
         return (
-            self.df.groupby("rfm_segment")["customer_id"]
+            self.df.groupby("rfm_segment", observed=True)["customer_id"]
             .nunique()
             .reset_index()
             .rename(columns={"customer_id": "customers"})
@@ -152,11 +152,11 @@ class KPICalculator:
         # Define churn risk based on recency
         risk_levels = pd.cut(
             self.df["recency"],
-            bins=[0, 30, 90, 180, float('inf')],
-            labels=["Low Risk", "Medium Risk", "High Risk", "Very High Risk"]
+            bins=[0, 30, 90, 180, float("inf")],
+            labels=["Low Risk", "Medium Risk", "High Risk", "Very High Risk"],
         )
-        
-        return self.df.groupby(risk_levels)["customer_id"].nunique()
+
+        return self.df.groupby(risk_levels, observed=True)["customer_id"].nunique()
 
     def _recency_vs_frequency(self) -> pd.DataFrame:
         """
@@ -182,7 +182,7 @@ class KPICalculator:
             return pd.DataFrame(columns=["rfm_segment", "monetary"])
 
         return (
-            self.df.groupby("rfm_segment")["monetary"]
+            self.df.groupby("rfm_segment", observed=True)["monetary"]
             .sum()
             .reset_index()
             .sort_values("monetary", ascending=False)
