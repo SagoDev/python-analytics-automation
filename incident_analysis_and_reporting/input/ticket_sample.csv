@@ -29,3 +29,73 @@ ticket_id,created_at,closed_at,category,priority,status,agent,team,sla_hours
 1028,2025-01-15 16:20,2025-01-16 10:30,Network,Low,Closed,Agent4,IT Operations,48
 1029,2025-01-16 09:00,2025-01-16 17:40,Software,Medium,Closed,Agent5,Application Support,24
 1030,2025-01-16 13:25,,Hardware,High,Open,Agent6,IT Operations,8
+1031,2025-01-17 08:00,2025-01-17 12:30,Network,Critical,Closed,Agent7,IT Operations,4
+1032,2025-01-17 09:15,,Software,High,Open,Agent8,Application Support,8
+1033,2025-01-17 11:45,2025-01-17 16:20,Hardware,Low,Closed,Agent9,IT Operations,48
+1034,2025-01-17 14:30,2025-01-18 09:15,Access,Medium,Closed,Agent10,Service Desk,12
+1035,2025-01-18 07:30,2025-01-18 11:45,Network,High,Closed,Agent11,IT Operations,8
+1036,2025-01-18 10:00,,Software,Critical,Open,Agent12,Application Support,4
+1037,2025-01-18 13:15,2025-01-19 10:30,Hardware,Medium,Closed,Agent1,IT Operations,24
+1038,2025-01-18 16:45,2025-01-19 14:20,Access,Low,Closed,Agent2,Service Desk,48
+1039,2025-01-19 08:30,,Network,Medium,Open,Agent3,IT Operations,12
+1040,2025-01-19 11:00,2025-01-19 15:25,Software,High,Closed,Agent4,Application Support,8
+1041,2025-01-19 14:10,2025-01-20 09:40,Hardware,Critical,Closed,Agent5,IT Operations,4
+1042,2025-01-20 07:45,,Access,High,Open,Agent6,Service Desk,8
+1043,2025-01-20 09:30,2025-01-20 13:15,Network,Low,Closed,Agent7,IT Operations,48
+1044,2025-01-20 12:45,,Software,Medium,Open,Agent8,Application Support,24
+1045,2025-01-20 15:20,2025-01-21 08:30,Hardware,High,Closed,Agent9,IT Operations,8
+1046,2025-01-21 08:15,2025-01-21 11:45,Access,Critical,Closed,Agent10,Service Desk,4
+1047,2025-01-21 10:30,,Network,Medium,Open,Agent11,IT Operations,12
+1048,2025-01-21 13:45,2025-01-21 17:20,Software,Low,Closed,Agent12,Application Support,48
+1049,2025-01-21 16:00,,Hardware,High,Open,Agent1,IT Operations,8
+1050,2025-01-21 18:30,2025-01-22 09:15,Access,Medium,Closed,Agent2,Service Desk,12
+1051,2025-01-22 07:00,2025-01-22 10:45,Network,Critical,Closed,Agent3,IT Operations,4
+1052,2025-01-22 09:15,,Software,High,Open,Agent4,Application Support,8
+1053,2025-01-22 12:30,2025-01-22 16:20,Hardware,Low,Closed,Agent5,IT Operations,48
+1054,2025-01-22 15:45,2025-01-23 11:30,Access,Medium,Closed,Agent6,Service Desk,12
+1055,2025-01-23 08:15,,Network,High,Open,Agent7,IT Operations,8
+1056,2025-01-23 11:00,2025-01-23 15:40,Software,Critical,Closed,Agent8,Application Support,4
+1057,2025-01-23 14:20,,Hardware,Medium,Open,Agent9,IT Operations,24
+1058,2025-01-23 17:30,2025-01-24 10:15,Access,Low,Closed,Agent10,Service Desk,48
+1059,2025-01-24 08:00,2025-01-24 12:30,Network,Medium,Closed,Agent11,IT Operations,12
+1060,2025-01-24 12:15,,Software,High,Open,Agent12,Application Support,8
+1061,2025-01-24 15:45,2025-01-25 09:20,Hardware,Critical,Closed,Agent1,IT Operations,4
+1062,2025-01-25 07:30,2025-01-25 11:15,Access,High,Closed,Agent2,Service Desk,8
+1063,2025-01-25 10:00,,Network,Low,Open,Agent3,IT Operations,48
+1064,2025-01-25 13:30,2025-01-25 16:45,Software,Medium,Closed,Agent4,Application Support,24
+1065,2025-01-25 16:15,2025-01-26 10:30,Hardware,High,Closed,Agent5,IT Operations,8
+1066,2025-01-26 08:45,,Access,Critical,Open,Agent6,Service Desk,4
+1067,2025-01-26 11:20,2025-01-26 15:15,Network,Medium,Closed,Agent7,IT Operations,12
+1068,2025-01-26 14:30,,Software,Low,Open,Agent8,Application Support,48
+1069,2025-01-26 17:45,2025-01-27 11:20,Hardware,High,Closed,Agent9,IT Operations,8
+1070,2025-01-27 07:15,2025-01-27 12:40,Access,Medium,Closed,Agent10,Service Desk,12
+1071,2025-01-27 10:30,,Network,Critical,Open,Agent11,IT Operations,4
+1072,2025-01-27 13:45,2025-01-27 17:30,Software,High,Closed,Agent12,Application Support,8
+1073,2025-01-27 16:20,2025-01-28 09:45,Hardware,Low,Closed,Agent1,IT Operations,48
+1074,2025-01-28 08:00,,Access,Medium,Open,Agent2,Service Desk,12
+1075,2025-01-28 11:15,2025-01-28 15:20,Network,High,Closed,Agent3,IT Operations,8
+1076,2025-01-28 14:30,,Software,Critical,Open,Agent4,Application Support,4
+1077,2025-01-28 17:00,2025-01-29 10:15,Hardware,Medium,Closed,Agent5,IT Operations,24
+1078,2025-01-29 07:45,2025-01-29 12:30,Access,Low,Closed,Agent6,Service Desk,48
+1079,2025-01-29 10:30,,Network,Medium,Open,Agent7,IT Operations,12
+1080,2025-01-29 13:15,2025-01-29 16:45,Software,High,Closed,Agent8,Application Support,8
+1081,2025-01-29 16:30,2025-01-30 11:20,Hardware,Critical,Closed,Agent9,IT Operations,4
+1082,2025-01-30 08:00,2025-01-30 13:15,Access,High,Closed,Agent10,Service Desk,8
+1083,2025-01-30 11:45,,Network,Low,Open,Agent11,IT Operations,48
+1084,2025-01-30 14:20,2025-01-30 18:30,Software,Medium,Closed,Agent12,Application Support,24
+1085,2025-01-30 17:00,,Hardware,High,Open,Agent1,IT Operations,8
+1086,2025-01-31 07:30,2025-01-31 11:45,Access,Critical,Closed,Agent2,Service Desk,4
+1087,2025-01-31 10:15,,Network,Medium,Open,Agent3,IT Operations,12
+1088,2025-01-31 13:30,2025-01-31 16:20,Software,Low,Closed,Agent4,Application Support,48
+1089,2025-01-31 16:45,2025-02-01 09:15,Hardware,High,Closed,Agent5,IT Operations,8
+1090,2025-02-01 08:00,,Access,Medium,Open,Agent6,Service Desk,12
+1091,2025-02-01 10:30,2025-02-01 14:45,Network,Critical,Closed,Agent7,IT Operations,4
+1092,2025-02-01 13:15,,Software,High,Open,Agent8,Application Support,8
+1093,2025-02-01 15:20,2025-02-02 10:30,Hardware,Low,Closed,Agent9,IT Operations,48
+1094,2025-02-01 17:45,2025-02-02 12:15,Access,Medium,Closed,Agent10,Service Desk,12
+1095,2025-02-02 07:30,,Network,High,Open,Agent11,IT Operations,8
+1096,2025-02-02 10:00,2025-02-02 15:30,Software,Critical,Closed,Agent12,Application Support,4
+1097,2025-02-02 12:45,2025-02-03 09:20,Hardware,Medium,Closed,Agent1,IT Operations,24
+1098,2025-02-02 16:15,,Access,Low,Open,Agent2,Service Desk,48
+1099,2025-02-03 08:30,2025-02-03 13:45,Network,Medium,Closed,Agent3,IT Operations,12
+1100,2025-02-03 11:00,,Software,High,Open,Agent4,Application Support,8
