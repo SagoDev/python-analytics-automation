@@ -1,0 +1,20 @@
+2025-01-15 09:00:01 | INFO | api_gateway | Request received from client
+2025-01-15 09:00:03 | INFO | auth_service | User authentication successful
+2025-01-15 09:01:10 | WARNING | auth_service | Slow response during authentication
+2025-01-15 09:02:45 | ERROR | auth_service | User authentication failed
+2025-01-15 09:03:12 | INFO | api_gateway | Request processed successfully
+2025-01-15 09:05:27 | INFO | order_service | Order created successfully
+2025-01-15 09:06:02 | ERROR | order_service | Failed to create order
+2025-01-15 09:06:05 | ERROR | order_service | Database connection timeout
+2025-01-15 09:07:30 | INFO | api_gateway | Request processed successfully
+2025-01-15 09:10:15 | WARNING | payment_service | Payment gateway latency detected
+2025-01-15 09:11:42 | ERROR | payment_service | Payment processing failed
+2025-01-15 09:12:00 | INFO | payment_service | Payment retry initiated
+2025-01-15 09:15:18 | INFO | order_service | Order status updated
+2025-01-15 09:18:55 | ERROR | api_gateway | Unexpected exception while routing request
+2025-01-15 09:20:01 | INFO | api_gateway | Health check OK
+2025-01-15 09:22:33 | WARNING | order_service | Inventory service response delayed
+2025-01-15 09:25:47 | ERROR | inventory_service | Stock level update failed
+2025-01-15 09:26:10 | INFO | inventory_service | Inventory sync completed
+2025-01-15 09:30:05 | ERROR | inventory_service | Inventory sync timeout
+2025-01-15 09:30:45 | INFO | api_gateway | Request processed successfully
