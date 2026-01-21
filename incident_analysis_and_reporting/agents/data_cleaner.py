@@ -68,6 +68,20 @@ class DataCleaner:
         except KeyError as exc:
             raise DataCleaningError(f"Missing datetime column: {exc}") from exc
 
+    def _remove_open_tickets(self) -> None:
+        """
+        Remove rows where tickets are still open (closed_at is missing).
+
+        This method filters out tickets that haven't been closed yet,
+        keeping only resolved tickets for analysis.
+        """
+        initial_count = len(self.df)
+        self.df.dropna(subset=["closed_at"], inplace=True)
+        removed_count = initial_count - len(self.df)
+
+        if removed_count > 0:
+            print(f"Removed {removed_count} open tickets from dataset")
+
     def _calculate_resolution_times(self) -> None:
         """
         Calculate resolution time in hours and days.
