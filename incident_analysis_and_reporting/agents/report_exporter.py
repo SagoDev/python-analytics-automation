@@ -191,14 +191,33 @@ class ReportExporter:
         elements = []
 
         elements.append(Paragraph("Ticket Data Overview", heading_style))
+
+        # Show only closed tickets in the PDF table for better overview
+        closed_tickets_df = clean_df[clean_df["closed_at"].notna()]
+
         elements.append(
             Paragraph(
-                f"Showing first 20 rows of {len(clean_df)} analyzed tickets:",
+                f"Showing first 20 closed tickets of {len(closed_tickets_df)} resolved tickets (from {len(clean_df)} total):",
                 styles["Normal"],
             )
         )
 
-        sample_df = clean_df.head(20)
+        # Select only key columns for better readability
+        key_columns = [
+            "ticket_id",
+            "created_at",
+            "category",
+            "priority",
+            "status",
+            "agent",
+            "resolution_time_hours",
+        ]
+
+        # Filter to only available columns
+        available_columns = [
+            col for col in key_columns if col in closed_tickets_df.columns
+        ]
+        sample_df = closed_tickets_df[available_columns].head(20)
         data_list = [sample_df.columns.tolist()] + sample_df.values.tolist()
 
         table = Table(data_list, repeatRows=1)
@@ -244,22 +263,72 @@ class ReportExporter:
             "tickets_created_vs_resolved": "Tickets Created vs Resolved Over Time",
         }
 
-        for i, (chart_name, chart_path) in enumerate(charts.items()):
-            if chart_path.exists():
-                if i > 0:
-                    elements.append(PageBreak())
+        # Convert to list to allow indexing
+        chart_items = list(charts.items())
 
-                elements.append(
-                    Paragraph(
-                        chart_titles.get(
-                            chart_name, chart_name.replace("_", " ").title()
-                        ),
-                        heading_style,
-                    )
-                )
-                elements.append(Spacer(1, 20))
-                elements.append(Image(str(chart_path), width=6 * inch, height=4 * inch))
-            else:
-                self.logger.warning("Chart file not found: %s", chart_path)
+        # Process charts in pairs (2 per page)
+        for i in range(0, len(chart_items), 2):
+            if i > 0:
+                elements.append(PageBreak())
+
+            current_chart = chart_items[i]
+            next_chart = chart_items[i + 1] if i + 1 < len(chart_items) else None
+
+            # Create layout for 1 or 2 charts
+            chart_layout = self._create_chart_layout(
+                current_chart, next_chart, chart_titles, heading_style
+            )
+            elements.append(chart_layout)
 
         return elements
+
+    def _create_chart_layout(
+        self, chart1_info, chart2_info, chart_titles, heading_style
+    ):
+        """Create layout for 1 or 2 charts vertically stacked"""
+        styles = getSampleStyleSheet()
+
+        # Build chart data for vertical table layout
+        chart_data = []
+
+        # First chart
+        chart1_name, chart1_path = chart1_info
+        if chart1_path.exists():
+            chart1_title = Paragraph(
+                chart_titles.get(chart1_name, chart1_name.replace("_", " ").title()),
+                heading_style,
+            )
+            chart1_image = Image(str(chart1_path), width=6 * inch, height=3.5 * inch)
+            chart_data.extend([[chart1_title], [Spacer(1, 10)], [chart1_image]])
+
+        # Second chart (if exists)
+        if chart2_info:
+            chart2_name, chart2_path = chart2_info
+            if chart2_path.exists():
+                chart2_title = Paragraph(
+                    chart_titles.get(
+                        chart2_name, chart2_name.replace("_", " ").title()
+                    ),
+                    heading_style,
+                )
+                chart2_image = Image(
+                    str(chart2_path), width=6 * inch, height=3.5 * inch
+                )
+                chart_data.extend(
+                    [[Spacer(1, 20)], [chart2_title], [Spacer(1, 10)], [chart2_image]]
+                )
+
+        # Create table with proper styling for vertical layout
+        table = Table(chart_data, colWidths=[6 * inch])
+
+        # Apply styling to center content
+        table.setStyle(
+            TableStyle(
+                [
+                    ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ]
+            )
+        )
+
+        return table
