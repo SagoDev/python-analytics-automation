@@ -19,7 +19,6 @@ import schedule
 from utils.logger import get_logger
 from .data_loader import DataLoader
 from .data_cleaner import DataCleaner
-from .demand_analysis import DemandAnalysis
 from .forecasting import Forecasting
 from .stock_risk import StockRisk
 from .chart_generator import ChartGenerator
@@ -68,10 +67,10 @@ class Scheduler:
             # 2. Clean and preprocess sales data
             self.logger.debug("Step 2: Cleaning and aggregating sales data")
             cleaner = DataCleaner(sales_df)
-            clean_sales_df = cleaner.clean(frequency="D")
+            clean_sales_df = cleaner.clean(frequency="W")
             self.logger.info("Sales data cleaned: %d rows", len(clean_sales_df))
 
-# 3. Forecast demand
+            # 3. Forecast demand
             self.logger.debug("Step 4: Forecasting demand")
             forecaster = Forecasting(
                 clean_sales_df,
@@ -80,8 +79,8 @@ class Scheduler:
                 sales_col="quantity_sold",
             )
             forecast_df = forecaster.combined_forecast(
-                periods=14, trend_weight=0.4, seasonal_weight=0.4, noise_weight=0.2
-            )  # next 14 days
+                periods=1, trend_weight=0.4, seasonal_weight=0.4, noise_weight=0.2
+            )  # next 1 week
             self.logger.info(
                 "Forecast completed for %d products", forecast_df["product"].nunique()
             )
@@ -95,10 +94,10 @@ class Scheduler:
             # 5. Generate charts
             self.logger.debug("Step 6: Generating charts")
             chart_gen = ChartGenerator(self.charts_output_dir)
-            hist_charts = chart_gen.plot_historical_demand(clean_sales_df)
-            forecast_charts = chart_gen.plot_forecast(forecast_df)
-            stock_charts = chart_gen.plot_stock_risk(stock_risk_df)
-            charts = {**hist_charts, **forecast_charts, **stock_charts}
+            individual_charts = chart_gen.plot_individual_product_forecasts(
+                clean_sales_df, forecast_df
+            )
+            charts = {**individual_charts}
             self.logger.info("Charts generated successfully")
 
             # 6. Export PDF report

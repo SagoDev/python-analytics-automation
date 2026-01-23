@@ -19,6 +19,7 @@ from reportlab.platypus import (
     Paragraph,
     Spacer,
     Image,
+    PageBreak,
 )
 
 
@@ -41,7 +42,7 @@ class ReportExporter:
         file_name: str | None = None,
     ) -> Path:
         """
-        Export all data and charts to a PDF.
+        Export all data and charts to a PDF with one page per product.
 
         Args:
             clean_sales_df: Cleaned sales data
@@ -54,44 +55,29 @@ class ReportExporter:
             Path to the saved PDF
         """
         if file_name is None:
-
             file_name = (
                 f"sales_forecast_report_{datetime.now().strftime('%Y%m%d_%H%M')}.pdf"
             )
 
         file_path = self.output_dir / file_name
-
         doc = SimpleDocTemplate(str(file_path), pagesize=A4)
         elements = []
 
-        # Title
+        # Title page
         elements.append(
             Paragraph("Sales Forecast & Stock Risk Report", self.styles["Title"])
         )
         elements.append(Spacer(1, 12))
-
-        # Section: Historical Sales (sample)
         elements.append(
-            Paragraph("Historical Sales (Top 10 Rows)", self.styles["Heading2"])
-        )
-        sample_sales = clean_sales_df.head(10)
-        table_data = [list(sample_sales.columns)] + sample_sales.values.tolist()
-        table = Table(table_data)
-        table.setStyle(
-            TableStyle(
-                [
-                    ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#d3d3d3")),
-                    ("GRID", (0, 0), (-1, -1), 0.5, colors.black),
-                ]
+            Paragraph(
+                f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+                self.styles["Normal"],
             )
         )
-        elements.append(table)
-        elements.append(Spacer(1, 12))
+        elements.append(Spacer(1, 20))
 
-        # Section: Forecast (sample)
-        elements.append(
-            Paragraph("Forecasted Demand (Top 10 Rows)", self.styles["Heading2"])
-        )
+        # Summary tables on title page
+        elements.append(Paragraph("Forecasted Demand Summary", self.styles["Heading2"]))
         sample_forecast = forecast_df.head(10)
         table_data = [list(sample_forecast.columns)] + sample_forecast.values.tolist()
         table = Table(table_data)
@@ -106,9 +92,9 @@ class ReportExporter:
         elements.append(table)
         elements.append(Spacer(1, 12))
 
-        # Section: Stock Risk (Top 10)
+        # Section: Stock Risk Summary
         elements.append(
-            Paragraph("Stock Risk Analysis (Top 10 Rows)", self.styles["Heading2"])
+            Paragraph("Stock Risk Analysis Summary", self.styles["Heading2"])
         )
         sample_risk = stock_risk_df.head(10)
         table_data = [list(sample_risk.columns)] + sample_risk.values.tolist()
@@ -124,23 +110,86 @@ class ReportExporter:
         elements.append(table)
         elements.append(Spacer(1, 12))
 
-        # Section: Charts
-        elements.append(Paragraph("Charts", self.styles["Heading2"]))
-        elements.append(Spacer(1, 12))
+        # Add page break before individual product pages
+        elements.append(PageBreak())
 
-        for product, chart_path in charts_dict.items():
-            elements.append(Paragraph(product, self.styles["Heading3"]))
-            elements.append(Spacer(1, 6))
-            try:
-                img = Image(str(chart_path))
-                img.drawHeight = 150
-                img.drawWidth = 300
-                elements.append(img)
-                elements.append(Spacer(1, 12))
-            except Exception as exc:
-                elements.append(
-                    Paragraph(f"Could not load chart: {exc}", self.styles["Normal"])
+        # Create one page per product
+        products = sorted(charts_dict.keys())
+        for i, product in enumerate(products):
+            # Product title
+            elements.append(
+                Paragraph(f"Product Analysis: {product}", self.styles["Heading1"])
+            )
+            elements.append(Spacer(1, 12))
+
+            # Product-specific data
+            product_forecast = forecast_df[forecast_df["product"] == product]
+            product_risk = stock_risk_df[stock_risk_df["product"] == product]
+
+            # Add forecast data for this product
+            elements.append(Paragraph("Forecast Details", self.styles["Heading2"]))
+            if not product_forecast.empty:
+                table_data = [
+                    list(product_forecast.columns)
+                ] + product_forecast.values.tolist()
+                table = Table(table_data)
+                table.setStyle(
+                    TableStyle(
+                        [
+                            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#d3d3d3")),
+                            ("GRID", (0, 0), (-1, -1), 0.5, colors.black),
+                        ]
+                    )
                 )
+                elements.append(table)
+            else:
+                elements.append(
+                    Paragraph("No forecast data available", self.styles["Normal"])
+                )
+
+            elements.append(Spacer(1, 12))
+
+            # Add stock risk data for this product
+            elements.append(Paragraph("Stock Risk Details", self.styles["Heading2"]))
+            if not product_risk.empty:
+                table_data = [list(product_risk.columns)] + product_risk.values.tolist()
+                table = Table(table_data)
+                table.setStyle(
+                    TableStyle(
+                        [
+                            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#d3d3d3")),
+                            ("GRID", (0, 0), (-1, -1), 0.5, colors.black),
+                        ]
+                    )
+                )
+                elements.append(table)
+            else:
+                elements.append(
+                    Paragraph("No stock risk data available", self.styles["Normal"])
+                )
+
+            elements.append(Spacer(1, 12))
+
+            # Add chart for this product
+            elements.append(Paragraph("Visual Analysis", self.styles["Heading2"]))
+            elements.append(Spacer(1, 6))
+
+            if product in charts_dict:
+                try:
+                    img = Image(str(charts_dict[product]))
+                    # Adjust image size to fit well on A4 page
+                    img.drawHeight = 400
+                    img.drawWidth = 500
+                    elements.append(img)
+                    elements.append(Spacer(1, 12))
+                except Exception as exc:
+                    elements.append(
+                        Paragraph(f"Could not load chart: {exc}", self.styles["Normal"])
+                    )
+
+            # Add page break except for the last product
+            if i < len(products) - 1:
+                elements.append(PageBreak())
 
         # Build PDF
         doc.build(elements)

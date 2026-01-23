@@ -50,14 +50,18 @@ class StockRisk:
         # Aggregate forecasted demand for the lead time
         df = self.forecast_df.merge(self.stock_df, on="product", how="left")
 
-        # Expected consumption = forecast_demand * lead_time_days
-        df["expected_consumption"] = df["forecast_demand"] * df["lead_time_days"]
+        # Expected consumption = forecast_demand * (lead_time_days / 7)
+        df["expected_consumption"] = round(
+            df["forecast_demand"] * (df["lead_time_days"] / 7), 2
+        )
 
         # Determine stock-out risk
-        df["stock_out_risk"] = df["current_stock"] < df["expected_consumption"]
+        df["stock_out_risk"] = (df["current_stock"] < df["expected_consumption"]).map(
+            {True: "Yes", False: "No"}
+        )
 
         # Calculate quantity shortage if any
-        df["shortage_qty"] = df["expected_consumption"] - df["current_stock"]
+        df["shortage_qty"] = round(df["expected_consumption"] - df["current_stock"], 2)
         df["shortage_qty"] = df["shortage_qty"].apply(lambda x: max(x, 0))
 
         # Keep relevant columns and aggregate per product
