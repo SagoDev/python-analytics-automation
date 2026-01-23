@@ -1,5 +1,5 @@
 """
-Sales Report Automation
+Incident analysis report
 A tool that transforms raw sales data into a ready-to-use executive report
 """
 

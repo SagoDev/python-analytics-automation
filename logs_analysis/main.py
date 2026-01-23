@@ -1,5 +1,5 @@
 """
-Sales Report Automation
+Logs analysis Report Automation
 A tool that transforms raw sales data into a ready-to-use executive report
 """
 
