@@ -12,7 +12,7 @@ The projects in this repository cover different real-world use cases, including:
 - **Customer RFM analysis and segmentation**
 - **Automated log analysis**
 - **Incident analysis and reporting**
-- **stock and demand predictive analysis**
+- **Stock and demand predictive analysis**
 
 Each project can be executed independently and follows a consistent structure to simplify maintenance and future extensions.
 
