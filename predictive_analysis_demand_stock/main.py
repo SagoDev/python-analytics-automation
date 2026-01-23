@@ -1,11 +1,13 @@
 """
-Logs analysis Report Automation
+Predictive demand and stock analysis Report Automation
 A tool that transforms raw sales data into a ready-to-use executive report
 """
 
 from agents.scheduler import Scheduler
 
-scheduler = Scheduler(file_path=["input/logs_sample.log"])
+scheduler = Scheduler(
+    sales_file="input/sales_test.csv", stock_file="input/stock_test.csv"
+)
 
 # Single run
 scheduler.run_pipeline()
